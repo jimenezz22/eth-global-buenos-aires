@@ -6,23 +6,57 @@
 require('dotenv').config();
 const { Client, PrivateKey } = require('@hashgraph/sdk');
 const { HederaLangchainToolkit, coreQueriesPlugin } = require('hedera-agent-kit');
-const { ChatOpenAI } = require('@langchain/openai');
 const axios = require('axios');
 
 const POLYMARKET_API_URL = process.env.POLYMARKET_API_URL || 'http://localhost:5001';
 
+/**
+ * Initialize LLM (supports Gemini, Groq, or OpenAI)
+ */
+function initializeLLM() {
+  // Option 1: Google Gemini (FREE!)
+  if (process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY) {
+    const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
+    const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+    console.log('✅ Using Google Gemini (FREE)\n');
+    return new ChatGoogleGenerativeAI({
+      modelName: 'gemini-pro',
+      apiKey: apiKey,
+      temperature: 0.7
+    });
+  }
+
+  // Option 2: Groq (Free tier)
+  if (process.env.GROQ_API_KEY) {
+    const { ChatGroq } = require('@langchain/groq');
+    console.log('✅ Using Groq Llama3 (FREE)\n');
+    return new ChatGroq({
+      apiKey: process.env.GROQ_API_KEY,
+      model: 'llama3-8b-8192'
+    });
+  }
+
+  // Option 3: OpenAI (paid)
+  if (process.env.OPENAI_API_KEY) {
+    const { ChatOpenAI } = require('@langchain/openai');
+    console.log('✅ Using OpenAI GPT-4o-mini\n');
+    return new ChatOpenAI({ model: 'gpt-4o-mini' });
+  }
+
+  // No AI provider configured
+  console.error('❌ No AI provider configured!');
+  console.log('\n💡 Add ONE of these to your .env file:');
+  console.log('   GOOGLE_API_KEY=xxx     (FREE at https://makersuite.google.com/app/apikey)');
+  console.log('   GROQ_API_KEY=xxx       (FREE at https://console.groq.com/keys)');
+  console.log('   OPENAI_API_KEY=xxx     (Paid at https://platform.openai.com/api-keys)\n');
+  process.exit(1);
+}
+
 async function main() {
   console.log('🚀 Hedera Agent Kit + Polymarket Integration\n');
 
-  // 1. Initialize AI (OpenAI)
-  if (!process.env.OPENAI_API_KEY) {
-    console.error('❌ OPENAI_API_KEY required in .env');
-    console.log('💡 Get one at https://platform.openai.com/api-keys');
-    process.exit(1);
-  }
-
-  const llm = new ChatOpenAI({ model: 'gpt-4o-mini' });
-  console.log('✅ OpenAI connected\n');
+  // 1. Initialize AI
+  const llm = initializeLLM();
 
   // 2. Hedera client setup
   const client = Client.forTestnet().setOperator(
