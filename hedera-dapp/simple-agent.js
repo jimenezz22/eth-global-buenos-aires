@@ -20,7 +20,7 @@ function initializeLLM() {
     const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
     console.log('✅ Using Google Gemini (FREE)\n');
     return new ChatGoogleGenerativeAI({
-      modelName: 'gemini-pro',
+      model: 'gemini-1.5-flash',  // Updated model name
       apiKey: apiKey,
       temperature: 0.7
     });
