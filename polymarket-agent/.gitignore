@@ -1,0 +1,88 @@
+# Environment
+.env
+.env.local
+*.env
+.venv
+venv
+env
+env3.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.*.sw?
+.DS_Store
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+log.txt
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+local_db*
+test.db
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Temporary
+*.tmp
+*.bak
+.cache
+
+# Project specific
+position.json
+position_*.json
+backup_my_code/
+
+# Build artifacts
+site/
+site_build/
+docs_build/
+docs.zip
+archive.zip
+Pipfile.lock
+.netlify
