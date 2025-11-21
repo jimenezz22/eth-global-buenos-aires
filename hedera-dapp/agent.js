@@ -17,6 +17,7 @@ const {
   TopicMessageSubmitTransaction
 } = require('@hashgraph/sdk');
 const axios = require('axios');
+const { parsePrivateKey } = require('./utils');
 
 // Configuration
 const HEDERA_ACCOUNT_ID = process.env.HEDERA_ACCOUNT_ID;
@@ -48,17 +49,8 @@ class HederaPolymarketAgent {
 
     this.accountId = AccountId.fromString(HEDERA_ACCOUNT_ID);
 
-    // Parse private key (try DER format first, then ED25519)
-    let privateKey;
-    try {
-      privateKey = PrivateKey.fromStringDer(HEDERA_PRIVATE_KEY);
-    } catch (e) {
-      try {
-        privateKey = PrivateKey.fromStringED25519(HEDERA_PRIVATE_KEY);
-      } catch (e2) {
-        throw new Error('Invalid private key format. Use DER or ED25519 hex format.');
-      }
-    }
+    // Parse private key (supports DER, ED25519, ECDSA formats)
+    const privateKey = parsePrivateKey(HEDERA_PRIVATE_KEY);
 
     this.client.setOperator(this.accountId, privateKey);
 
