@@ -1,0 +1,36 @@
+{
+  "yes_shares": 0.0,
+  "no_shares": 7678.5714285714275,
+  "avg_cost_yes": 0.8,
+  "avg_cost_no": 0.14,
+  "entry_prob": 0.8,
+  "entry_timestamp": "2025-11-21T22:23:00.992982",
+  "total_invested": 2075.0,
+  "total_withdrawn": 1075.0,
+  "trades": [
+    {
+      "timestamp": "2025-11-21T22:23:00.993010",
+      "side": "YES",
+      "shares": 1250.0,
+      "price": 0.8,
+      "trade_type": "BUY",
+      "usdc_amount": 1000.0
+    },
+    {
+      "timestamp": "2025-11-21T22:23:06.715289",
+      "side": "YES",
+      "shares": 1250.0,
+      "price": 0.86,
+      "trade_type": "SELL",
+      "usdc_amount": 1075.0
+    },
+    {
+      "timestamp": "2025-11-21T22:23:06.715739",
+      "side": "NO",
+      "shares": 7678.5714285714275,
+      "price": 0.14,
+      "trade_type": "BUY",
+      "usdc_amount": 1075.0
+    }
+  ]
+}
